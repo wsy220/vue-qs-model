@@ -17,9 +17,9 @@ if (process.env.NODE_ENV == 'development') {
   baseUrl = '//elm.cangdu.org';
 
 } else if (process.env.NODE_ENV == 'production') {
-  // baseUrl = '//elm.cangdu.org';
+  baseUrl = '//elm.cangdu.org';
   imgBaseUrl = '//elm.cangdu.org/img/';
-  baseUrl = 'http://pt.70jiahu.com';
+  //baseUrl = 'http://pt.70jiahu.com';
   // imgBaseUrl = 'http://pt.70jiahu.com';
 }
 
