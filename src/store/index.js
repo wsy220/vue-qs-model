@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 // import mutations from './mutations'
-// import actions from './action'
+import actions from './action'
 import getters from './getters'
-
+import dialog_store from '../components/dialog/dialog_store'//测试modules
 Vue.use(Vuex)
 
 const state = {
@@ -33,11 +33,27 @@ const state = {
 	addAddress:'',		//新增地址
 	question: null,//问题详情
 	cartPrice: null, //会员卡价格
+
+
+  count:0,//store DEMO测试
+  show:false
 }
 
 export default new Vuex.Store({
 	state,
 	getters,
-	// actions,
-//	mutations,
+	actions,
+	// mutations,
+  mutations:{
+	  increment:state=>state.count++,
+    decrement:state=>state.count--,
+
+    switch_dialog(state){
+	    state.show=state.show?false:true;
+    }
+
+  },
+  modules:{
+	  dialog:dialog_store
+  }
 })

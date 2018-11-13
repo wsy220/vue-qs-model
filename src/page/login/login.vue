@@ -20,7 +20,7 @@
     <div class="login-box" id="app">
       <el-row>
         <el-col :span="24">
-          <el-input id="name" v-model="userAccount" placeholder="请输入帐号">
+          <el-input id="name" v-model="phoneNumber" placeholder="请输入帐号">
             <template slot="prepend">帐号</template>
           </el-input>
         </el-col>
@@ -42,7 +42,7 @@
 
         </el-col>
         <el-col :span="12">
-          <div class="img_change_img">
+          <div class="img_change_img" style="display: flex;padding-left: 10px">
             <img v-show="captchaCodeImg" :src="captchaCodeImg">
             <div class="change_img" @click="getCaptchaCode">
               <p>换一张</p>
@@ -58,6 +58,7 @@
         </el-col>
       </el-row>
     </div>
+    <alert-tip v-if="showAlert" :showHide="showAlert" @closeTip="closeTip" :alertText="alertText"></alert-tip>
 
 
   </div>
@@ -66,6 +67,7 @@
 
 <script>
   import headtop from '../../components/header/header'
+  import alertTip from '../../components/common/alertTip'
   import ElContainer from "element-ui/packages/container/src/main";
   import {mobileCode, checkExsis, sendLogin, getcaptchas, accountLogin} from '../../service/getData'
   // import alertTip from '../../components/common'
@@ -74,18 +76,22 @@
     name: "login",
     data() {
       return {
-
+        //短信验证码登录方式
         loginWay: false, //登录方式，默认短信登录
         showPassword: false, // 是否显示密码
         phoneNumber: null, //电话号码
         mobileCode: null, //短信验证码
         validate_token: null, //获取短信时返回的验证值，登录时需要
         computedTime: 0, //倒数记时
+
+        //图片验证码登录方式
         userInfo: null, //获取到的用户信息
         userAccount: null, //用户名
         passWord: null, //密码
         captchaCodeImg: null, //验证码地址
         codeNumber: null, //验证码
+
+
         showAlert: false, //显示提示组件
         alertText: null, //提示的内容
 
@@ -101,13 +107,21 @@
 
     components: {
       ElContainer,
-      headtop
+      headtop,
+      alertTip
     },
     computed: {
       //判断手机号码
       rightPhoneNumber: function () {
         return /^1\d{10}$/gi.test(this.phoneNumber)
+      },
+      //弹框
+      open() {
+        this.$alert(this.alertText, '标题名称', {
+          confirmButtonText: '确定'
+        });
       }
+
     },
     methods: {
       async getCaptchaCode() {
@@ -115,24 +129,73 @@
         console.log(JSON.stringify(res));
         this.captchaCodeImg = res.code;
       },
-      async getVerifyCode(){
-        if(this.rightPhoneNumber){
-          this.computedTime=30;
-          this.timer=setInterval(()=>{
+      async getVerifyCode() {
+        if (this.rightPhoneNumber) {
+          this.computedTime = 30;
+          this.timer = setInterval(() => {
             this.computedTime--;
-            if(this.computedTime==0){
+            if (this.computedTime == 0) {
               clearInterval(this.timer);
             }
           }, 1000)
         }
 
+        // let exsis=await checkExsis(this.phoneNumber,'mobile');
+        // console.log("------->>>>>"+exsis);
+        // if(exsis.message){
+        //   return
+        // }else if(exsis){
+        //
+        // }
+
+        //发送短信验证码
+        // let res = await mobileCode(this.phoneNumber);
+        // console.log("------->>>>>"+res);
+      },
 
 
+
+      //发送登录信息
+      async mobileLogin() {
+        if (!this.rightPhoneNumber) {
+          // this.showAlert = true;
+          this.alertText = "手机号码不正确";
+          this.open();
+
+
+          return;
+        } else if (!this.passWord) {
+          // this.showAlert = true;
+          // this.alertText = "请输入密码";
+          this.open();
+          return;
+        } else if (!this.codeNumber) {
+          // this.showAlert = true;
+          // this.alertText = "请输入验证码";
+          this.open();
+          return;
+        }
+
+        this.userinfo = await accountLogin(this.phoneNumber, this.passWord, this.codeNumber);
+        console.log(JSON.stringify(this.userinfo));
+        //如果返回不正确则
+        if (!this.userinfo.user_id) {
+          alert(this.userInfo.message);
+          this.getCaptchaCode();
+        } else {
+          this.$router.go(-1);
+        }
+
+      },
+      closeTip(){
+        this.showAlert = false;
       }
 
 
     }
   }
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -142,6 +205,9 @@
     padding-top: 1.95rem;
     p, span, input {
       font-family: Helvetica Neue, Tahoma, Arial;
+    }
+    p{
+      font-size: 17px;
     }
   }
 
@@ -178,22 +244,22 @@
       padding: .3rem .8rem;
     }
     .captcha_code_container {
-      height: 2.2rem;
+      height: 1.2rem;
       .img_change_img {
         display: flex;
         align-items: center;
         img {
-          @include wh(3.5rem, 1.5rem);
+          @include wh(1.5rem, .5rem);
           margin-right: .2rem;
         }
         .change_img {
           display: flex;
           flex-direction: 'column';
           flex-wrap: wrap;
-          width: 2rem;
+          width: 1rem;
           justify-content: center;
           p {
-            @include sc(.55rem, #666);
+            @include sc(.3rem, #666);
           }
           p:nth-of-type(2) {
             color: #3b95e9;

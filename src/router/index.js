@@ -4,7 +4,8 @@ import HelloWorld from '@/components/HelloWorld'
 import App from '../App'
 
 Vue.use(Router)
-const home = r => require.ensure([], () => r(require('../page/home/index')), 'home');
+// const home = r => require.ensure([], () => r(require('../page/home/index')), 'home');
+const home = r => require.ensure([], () => r(require('../page/home/cityselect')), 'home');
 const login = r => require.ensure([], () => r(require('../page/login/login')), 'login')
 
 export default new Router({
