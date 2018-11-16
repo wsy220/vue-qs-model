@@ -60,13 +60,17 @@ export const checkExsis = (checkNumber, type) => fetch('/v1/users/exists', {
  * 账号密码登录
  */
 
-export const accountLogin=(username,password,captcha_code)=>fetch('/v2/login',{username, password, captcha_code},'POST');
+export const accountLogin = (username, password, captcha_code) => fetch('/v2/login', {
+  username,
+  password,
+  captcha_code
+}, 'POST');
 
 /**
  *个人中心里编辑地址
  */
 
-export const getAddressList = (user_id) => fetch('/v1/users/'+user_id+'/addresses');
+export const getAddressList = (user_id) => fetch('/v1/users/' + user_id + '/addresses');
 /**
  * 获取用户信息
  */
@@ -74,8 +78,13 @@ export const getAddressList = (user_id) => fetch('/v1/users/'+user_id+'/addresse
 export const getUser = () => fetch('/v1/user', {user_id: getStore('user_id')});
 /**
  * 获取当前城市
- *
- * @param number
- * @returns {Promise<*>}
  */
 export const currentcity = number => fetch('/v1/cities/' + number);
+/**
+ *搜索结果
+ */
+export const searchplace = (cityid, value) => fetch('/v1/pois', {
+  type: 'search',
+  city_id: cityid,
+  keyword: value
+});
