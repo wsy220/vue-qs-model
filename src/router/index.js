@@ -4,10 +4,12 @@ import HelloWorld from '@/components/HelloWorld'
 import App from '../App'
 
 Vue.use(Router)
+
+//根据chunkname的不同打包时候分级打包不同的JS，按需下载，chunkname如‘home’等
 // const home = r => require.ensure([], () => r(require('../page/home/index')), 'home');
 const home = r => require.ensure([], () => r(require('../page/home/cityselect')), 'home');
 const login = r => require.ensure([], () => r(require('../page/login/login')), 'login')
-
+const city = r => require.ensure([], () => r(require('../page/city/city')), 'city');
 export default new Router({
   routes: [
     {
@@ -18,17 +20,24 @@ export default new Router({
           path: '',
           redirect: '/home'
         },
+        //首页
         {
           path: '/home',
           component: home
         },
+        //登录
         {
-          path:'/login',
-          component:login
+          path: '/login',
+          component: login
+        },
+        //当前选择城市页
+        {
+          path: '/city/:cityid',
+          component: city
         }
 
 
-        ]
+      ]
     }
   ]
 })

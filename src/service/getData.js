@@ -72,4 +72,10 @@ export const getAddressList = (user_id) => fetch('/v1/users/'+user_id+'/addresse
  */
 
 export const getUser = () => fetch('/v1/user', {user_id: getStore('user_id')});
-
+/**
+ * 获取当前城市
+ *
+ * @param number
+ * @returns {Promise<*>}
+ */
+export const currentcity = number => fetch('/v1/cities/' + number);

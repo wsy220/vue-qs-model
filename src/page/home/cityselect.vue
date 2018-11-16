@@ -60,11 +60,11 @@
         this.guessCityid = res.id;
       });
       hotcity().then(res=>{
-        console.log(JSON.stringify(res));
+        // console.log(JSON.stringify(res));
         this.hotcity=res;
       });
       groupcity().then(res=>{
-        console.log(JSON.stringify(res));
+        // console.log(JSON.stringify(res));
         this.groupcity=res;
       });
 

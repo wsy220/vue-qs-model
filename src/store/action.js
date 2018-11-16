@@ -14,6 +14,7 @@ export default {
 		state
 	}) {
 		let res = await getUser();
+		// alert("getUser alert"+JSON.stringify(res));
 		commit(GET_USERINFO, res)
 	},
 	async saveAddress({

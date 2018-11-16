@@ -71,6 +71,7 @@
   import ElContainer from "element-ui/packages/container/src/main";
   import {mobileCode, checkExsis, sendLogin, getcaptchas, accountLogin} from '../../service/getData'
   // import alertTip from '../../components/common'
+  import {mapState, mapMutations} from 'vuex';
 
   export default {
     name: "login",
@@ -124,6 +125,7 @@
 
     },
     methods: {
+      ...mapMutations(['RECORD_USERINFO']),
       async getCaptchaCode() {
         let res = await getcaptchas();
         console.log(JSON.stringify(res));
@@ -152,7 +154,6 @@
         // let res = await mobileCode(this.phoneNumber);
         // console.log("------->>>>>"+res);
       },
-
 
 
       //发送登录信息
@@ -187,7 +188,7 @@
         }
 
       },
-      closeTip(){
+      closeTip() {
         this.showAlert = false;
       }
 
@@ -206,7 +207,7 @@
     p, span, input {
       font-family: Helvetica Neue, Tahoma, Arial;
     }
-    p{
+    p {
       font-size: 17px;
     }
   }

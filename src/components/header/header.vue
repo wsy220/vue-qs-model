@@ -4,8 +4,10 @@
       <!--<i class="fa fa-angle-left"></i>-->
       <i class="el-icon-arrow-left"></i>
     </section>
-    <router-link class="head_login" :to="'/login'">
-      <span class="login_span">登录|注册</span>
+    <router-link class="head_login" :to="'/login'" v-if="signinUp">
+
+
+      <span class="login_span" v-if="!userInfo">登录|注册</span>
     </router-link>
 
     <section class="title_head ellipsis" v-if="headTitle">
@@ -24,9 +26,17 @@
           }
       },
       mounted(){
-        //this.getUserInfo();
+        this.getUserInfo();
       },
-      props: ['signinUp', 'headTitle', 'goBack']
+      props: ['signinUp', 'headTitle', 'goBack'],
+      computed:{
+        ...mapState(['userinfo'])
+      },
+      methods:{
+        ...mapActions(['getUserInfo'])
+      }
+
+
 
     }
 </script>

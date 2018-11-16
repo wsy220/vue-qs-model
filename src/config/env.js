@@ -14,13 +14,14 @@ let imgBaseUrl = '';
 
 if (process.env.NODE_ENV == 'development') {
   imgBaseUrl = '/img/';
-  baseUrl = '//elm.cangdu.org';
+  // baseUrl = '//elm.cangdu.org';
+  baseUrl = 'http://localhost:8002';
+
+
 
 } else if (process.env.NODE_ENV == 'production') {
   baseUrl = '//elm.cangdu.org';
   imgBaseUrl = '//elm.cangdu.org/img/';
-  //baseUrl = 'http://pt.70jiahu.com';
-  // imgBaseUrl = 'http://pt.70jiahu.com';
 }
 
 export {

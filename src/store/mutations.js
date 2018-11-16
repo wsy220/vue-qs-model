@@ -32,7 +32,7 @@ import {
 
 import {setStore, getStore} from '../config/mUtils'
 
-import {localapi, proapi} from 'src/config/env'
+import {localapi, proapi} from '../config/env'
 
 export default {
 	// 记录当前经度纬度
@@ -125,7 +125,7 @@ export default {
 	[RECORD_USERINFO](state, info) {
 		state.userInfo = info;
 		state.login = true;
-		setStore('user_id', info.user_id);
+		setStore('user_id', info.user_id);//将user_id存到localStorage中
 	},
 	//获取用户信息存入vuex
 	[GET_USERINFO](state, info) {
@@ -168,7 +168,7 @@ export default {
 	//保存geohash
 	[SAVE_GEOHASH](state, geohash) {
 		state.geohash = geohash;
-		
+
 	},
 	//确认订单页添加新的的地址
 	[CONFIRM_ADDRESS](state, newAddress) {
