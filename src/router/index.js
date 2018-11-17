@@ -10,6 +10,9 @@ Vue.use(Router)
 const home = r => require.ensure([], () => r(require('../page/home/cityselect')), 'home');
 const login = r => require.ensure([], () => r(require('../page/login/login')), 'login')
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city');
+const msite = r => require.ensure([], () => r(require('../page/msite/msite')), 'msite');
+
+
 export default new Router({
   routes: [
     {
@@ -34,6 +37,11 @@ export default new Router({
         {
           path: '/city/:cityid',
           component: city
+        },
+        {
+          path:'msite',
+          component:msite,
+          meta:{keepAlive:true},//表示需要被缓存
         }
 
 

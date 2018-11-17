@@ -1,18 +1,19 @@
 <template>
   <header id="headtop">
-    <section class="head_goback" @click="$router.go(-1)">
+    <section class="head_goback" @click="$router.go(-1)" v-if="goBack">
       <!--<i class="fa fa-angle-left"></i>-->
       <i class="el-icon-arrow-left"></i>
     </section>
     <router-link class="head_login" :to="'/login'" v-if="signinUp">
-
-
       <span class="login_span" v-if="!userInfo">登录|注册</span>
     </router-link>
 
     <section class="title_head ellipsis" v-if="headTitle">
       <span class="title_text">{{headTitle}}</span>
     </section>
+
+    <slot name="msite-title"></slot>
+    <slot name="search"></slot>
   </header>
 </template>
 

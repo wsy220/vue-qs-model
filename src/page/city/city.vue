@@ -89,7 +89,7 @@
         this.initData();
       },
       //列表进入下一页方法
-      nextPage(index,geohash){
+      nextpage(index,geohash){
         let history=getStore('plaseHistory');
         let choosePlace=this.placelist[index];
         if(history){
@@ -105,7 +105,7 @@
         }else{
           this.placeHistory.push(choosePlace);
         }
-        setStore("placeHistory",res);
+        setStore("placeHistory",this.placeHistory);
         this.$router.push({path:'/msite',query:{geohash}});
       }
 
