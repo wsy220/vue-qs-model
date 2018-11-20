@@ -14,6 +14,7 @@ let imgBaseUrl = '';
 
 if (process.env.NODE_ENV == 'development') {
   imgBaseUrl = '/img/';
+  // imgBaseUrl = '//elm.cangdu.org/img/';
   // baseUrl = '//elm.cangdu.org';
   baseUrl = 'http://localhost:8002';
 
