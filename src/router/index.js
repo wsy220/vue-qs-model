@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import App from '../App'
 
 Vue.use(Router)
@@ -11,7 +10,13 @@ const home = r => require.ensure([], () => r(require('../page/home/cityselect'))
 const login = r => require.ensure([], () => r(require('../page/login/login')), 'login')
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city');
 const msite = r => require.ensure([], () => r(require('../page/msite/msite')), 'msite');
+const search=r=>require.ensure([], () => r(require('../page/search/search')), 'search');
 
+
+
+
+//测试mock的商品列表页面
+const LineSource=r => require.ensure([], () => r(require('../page/List_mock/LineSource')), 'LineSource');
 
 export default new Router({
   routes: [
@@ -38,13 +43,23 @@ export default new Router({
           path: '/city/:cityid',
           component: city
         },
+        //所有商铺列表
         {
           path:'msite',
           component:msite,
           meta:{keepAlive:true},//表示需要被缓存
+        },
+        //footer搜索
+        {
+          path:"search/:geohash",
+          component:search
+        },
+
+        //mock演示路由
+        {
+          path:'/LineSource',
+          component:LineSource,
         }
-
-
       ]
     }
   ]

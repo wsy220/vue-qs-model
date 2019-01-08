@@ -1,7 +1,6 @@
 <template>
   <div class="city_container">
-    <headtop><span class="head_logo" :head-title="cityname" @click="reload">ele.me</span></headtop>
-
+    <headtop><span class="head_logo" :head-title="cityname">ele.me</span></headtop>
     <headtop :head-title="cityname" go-back='true'>
       <router-link to="/home" slot="changecity" class="change_city">切换城市</router-link>
     </headtop>
@@ -108,9 +107,6 @@
         setStore("placeHistory",this.placeHistory);
         this.$router.push({path:'/msite',query:{geohash}});
       }
-
-
-
     }
 
   }
@@ -134,7 +130,7 @@
     background-color: #fff;
     border-top: 1px solid $bc;
     border-bottom: 1px solid $bc;
-    padding-top: 0.4rem;
+    padding-top: 1rem;
     div {
       width: 90%;
       margin: 0 auto;

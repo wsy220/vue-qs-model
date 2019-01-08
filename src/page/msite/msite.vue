@@ -12,7 +12,7 @@
       <div class="swiper-container" v-if="foodTypes.length">
         <div class="swiper-wrapper">
           <div class="swiper-slide food_types_container" v-for="(item, index) in foodTypes" :key="index">
-            <router-link :to="{path: '/food', query: {geohash, title: foodItem.title}}" v-for="foodItem in item"
+            <router-link :to="{path: '/food', query: {geohash, title: foodItem.title,restaurant_category_id: getCategoryId(foodItem.link)}}" v-for="foodItem in item"
                          :key="foodItem.id" class="link_to_food">
               <figure>
                 <img :src="imgBaseUrl + foodItem.image_url">
@@ -23,28 +23,31 @@
         </div>
         <div class="swiper-pagination"></div>
       </div>
-      <!--<img src="../../images/fl.svg" class="fl_back animation_opactiy" v-else>-->
+      <img src="../../images/fl.svg" class="fl_back animation_opactiy" v-else>
     </nav>
-    <div class="shop_list_container">
-      <header class="shop_header">
+    <div class="shop_list_container  view-wrapper">
+      <header class="shop_header app-header">
         <i class="fa fa-university shop_icon"></i>
         <span class="shop_header_title">附近商家</span>
       </header>
       <shop-list v-if="hasGetData" :geohash="geohash"></shop-list>
 
     </div>
+    <!--<foot-guide :idx="0"></foot-guide>-->
     <foot-guide></foot-guide>
 
   </div>
 </template>
 
 <script>
-  import headtop from '../../components/header/header'
-  // import
+  import headtop from '../../components/header/header';
+  import shopList from '../../components/common/shoplist';//商店列表组件
+  // import footGuide from '../../components/footer/footGuide';//商店底部组件
   import {msiteFoodTypes, cityGuess, misteAddress} from "../../service/getData";
   import {mapMutations} from 'vuex';
   // import '../../plugins/swiper.min';
   import '../../style/swiper.min.css';
+  import FootGuide from "../../components/footer/footGuide";
 
   export default {
     name: "msite",
@@ -82,22 +85,35 @@
         let resLength = res.length;
         let resArr = [...res]; // 返回一个新的数组
         let foodArr = [];
-        console.log(resArr.length);
+        // console.log(resArr.length);
         for (let i = 0, j = 0; i < resLength; i += 8, j++) {
           foodArr[j] = resArr.splice(0, 8);
         }
         this.foodTypes = foodArr;
-        console.log(foodArr.length);
-        console.log(this.foodTypes.length);
+        // console.log(foodArr.length);
+        // console.log(this.foodTypes.length);
       })
     },
     components: {
-      headtop
+      FootGuide,
+      headtop,
+      shopList
+
     },
     methods: {
       ...mapMutations([
         'RECORD_ADDRESS', 'SAVE_GEOHASH'
-      ])
+      ]),
+      // 解码url地址，求去restaurant_category_id值
+      getCategoryId(url) {
+        let urlData = decodeURIComponent(url.split('=')[1].replace('&target_name', ''));
+        if (/restaurant_category_id/gi.test(urlData)) {
+          return JSON.parse(urlData).restaurant_category_id.id
+        } else {
+          return ''
+        }
+      }
+
     }
   }
 </script>
@@ -128,7 +144,7 @@
   }
 
   .msite_nav {
-    padding-top: 2.5rem;
+    padding-top: 3rem;
     background-color: #fff;
     border-bottom: 0.025rem solid $bc;
     height: 10.6rem;
@@ -172,15 +188,29 @@
       text-align: left;
       .shop_icon {
         font-size: initial;
-        fill: #999;
+        color: #999;
         margin-left: 0.6rem;
-        vertical-align: middle;
-        @include wh(0.6rem, 0.6rem);
+        margin-right: 0.6rem;
+        vertical-align: unset;
+        @include wh(0.5rem, 0.5rem);
       }
       .shop_header_title {
         color: #999;
         @include font(0.55rem, 1.6rem);
       }
     }
+  }
+
+  .app-header {
+    position: absolute;
+    left: 0;
+    top: 11rem;
+    box-sizing: border-box;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    z-index: 500;
+    background: #FFF;
+    color: #fff;
   }
 </style>

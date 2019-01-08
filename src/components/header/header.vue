@@ -1,5 +1,7 @@
 <template>
   <header id="headtop">
+    <slot name="logo"></slot>
+    <slot name="search"></slot>
     <section class="head_goback" @click="$router.go(-1)" v-if="goBack">
       <!--<i class="fa fa-angle-left"></i>-->
       <i class="el-icon-arrow-left"></i>
@@ -13,7 +15,6 @@
     </section>
 
     <slot name="msite-title"></slot>
-    <slot name="search"></slot>
   </header>
 </template>
 
@@ -31,7 +32,7 @@
       },
       props: ['signinUp', 'headTitle', 'goBack'],
       computed:{
-        ...mapState(['userinfo'])
+        ...mapState(['userInfo'])
       },
       methods:{
         ...mapActions(['getUserInfo'])

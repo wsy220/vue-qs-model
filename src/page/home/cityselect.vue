@@ -1,8 +1,9 @@
 <template>
   <div class="home_container">
-    <headtop><span class="head_logo" @click="reload">ele.me</span></headtop>
+    <headtop signin-up="home"><span class="head_logo" @click="reload" slot="logo">ele.me</span></headtop>
     <nav class="city_nav">
       <div class="city_tip">
+        <!--<span>  <router-link :to="'/LineSource'" class="guess_city">当前定位城市</router-link></span>-->
         <span>当前定位城市</span>
         <span>定位不准时候，请在城市列表中选择</span>
       </div>
@@ -80,8 +81,12 @@
         }
         return sortobj;
       }
+    },
+    methods:{
+      reload(){
+        window.location.reload();
+      }
     }
-
   }
 </script>
 

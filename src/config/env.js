@@ -13,10 +13,11 @@ let imgBaseUrl = '';
 
 
 if (process.env.NODE_ENV == 'development') {
-  imgBaseUrl = '/img/';
-  // imgBaseUrl = '//elm.cangdu.org/img/';
-  // baseUrl = '//elm.cangdu.org';
-  baseUrl = 'http://localhost:8002';
+  // imgBaseUrl = '/img/';
+  imgBaseUrl = '//elm.cangdu.org/img/';
+  baseUrl = '//elm.cangdu.org';//链接网络后台程序
+  // baseUrl = 'http://localhost:8001';//链接本地后台程序
+  // baseUrl = 'http://localhost:3000';//链接本地后台程序
 
 
 

@@ -1,8 +1,6 @@
 <template>
   <div class="loginContainer">
     <headtop :head-title="'登录'"><span class="head_logo" @click="reload">ele.me</span></headtop>
-
-
     <form class="loginForm">
       <section class="input_container phone_number">
         <input type="text" placeholder="账号密码随便输入" name="phone" maxlength="11" v-model="phoneNumber">
@@ -15,8 +13,6 @@
         <input type="text" placeholder="验证码" name="mobileCode" maxlength="6" v-model="mobileCode">
       </section>
     </form>
-
-
     <div class="login-box" id="app">
       <el-row>
         <el-col :span="24">
@@ -32,8 +28,6 @@
           </el-input>
         </el-col>
       </el-row>
-
-
       <el-row>
         <el-col :span="12">
           <el-input id="yanzhengma" v-model="codeNumber" type="text" placeholder="请输入密码">
@@ -50,8 +44,6 @@
           </div>
         </el-col>
       </el-row>
-
-
       <el-row>
         <el-col :span="24">
           <el-button id="login" v-on:click="mobileLogin" style="width:100%" type="primary">登录</el-button>
@@ -59,10 +51,7 @@
       </el-row>
     </div>
     <alert-tip v-if="showAlert" :showHide="showAlert" @closeTip="closeTip" :alertText="alertText"></alert-tip>
-
-
   </div>
-
 </template>
 
 <script>
@@ -191,12 +180,8 @@
       closeTip() {
         this.showAlert = false;
       }
-
-
     }
   }
-
-
 </script>
 
 <style lang="scss" scoped>
@@ -332,7 +317,6 @@
     @include sc(.6rem, #3b95e9);
     margin-right: .3rem;
   }
-
   input {
     border: 0px;
   }
@@ -343,10 +327,8 @@
       margin-bottom: 0;
     }
   }
-
   .login-box {
     margin-top: 2%;
     /*margin-left: 40%;*/
   }
-
 </style>
