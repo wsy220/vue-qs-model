@@ -27,14 +27,8 @@ export const groupcity = () => fetch('/v1/cities', {
   type: 'group'
 });
 
-// export const getfenlei = () => fetch('/api/app/profile/tags', {});
-export const getfenlei = () => fetch('/v1/cities', {
-  type: 'guess'
-});
-
 /**
  *获取验证码
- *
  */
 
 export const mobileCode = phone => fetch('/v4/mobile/verify_code/send', {
@@ -128,3 +122,21 @@ export const shopList = (latitude, longitude, offset, restaurant_category_id = '
   };
   return fetch('/shopping/restaurants', data);
 };
+/**
+ * 搜索结果
+ * */
+export const searchRestaurant=(geohash,keyword)=>fetch('/v4/restaurants',{
+  'extras[]': 'restaurant_activity',
+  geohash,
+  keyword,
+  type: 'search'
+})
+/**
+ *获取order列表内容
+ */
+export const getOrderList = (user_id, offset) => fetch('/bos/v2/users/' + user_id + '/orders', {
+  limit: 10,
+  offset,
+});
+
+

@@ -123,6 +123,7 @@ export default {
 	},
 	// 记录用户信息
 	[RECORD_USERINFO](state, info) {
+	  console.log("Mutation"+JSON.stringify(info));
 		state.userInfo = info;
 		state.login = true;
 		setStore('user_id', info.user_id);//将user_id存到localStorage中

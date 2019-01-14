@@ -33,6 +33,7 @@
   import headtop from '../../components/header/header';
   import {currentcity, searchplace} from '../../service/getData';
   import {getStore, setStore, removeStore} from "../../config/mUtils";
+  import {getRequest} from "../../config/axios";
 
   export default {
     name: "city",
@@ -55,11 +56,17 @@
       this.cityid = this.$route.params.cityid;//路由获取cityid
 
       //获取当前城市
-      currentcity(this.cityid).then(res => {
-        console.log("获取当前城市：" + JSON.stringify(res));
-        this.cityname = res.name;
+      // currentcity(this.cityid).then(res => {
+      //   console.log("获取当前城市：" + JSON.stringify(res));
+      //   this.cityname = res.name;
+      //   console.log("城市名字" + this.cityname);
+      // });
+      getRequest('/v1/cities/'+this.cityid).then(res=>{
+        console.log("获取当前城市：" + JSON.stringify(res.data));
+        this.cityname = res.data.name;
         console.log("城市名字" + this.cityname);
-      });
+      })
+
       this.initData();
 
     },
@@ -74,13 +81,25 @@
       },
       postpois() {
         if (this.inputValue) {
-          searchplace(this.cityid, this.inputValue).then(res => {
-            this.historytitle = false;
-            console.log("搜索结果：" + JSON.stringify(res));
+          // searchplace(this.cityid, this.inputValue).then(res => {
+          //   this.historytitle = false;
+          //   console.log("搜索结果：" + JSON.stringify(res));
+          //
+          //   this.placelist = res;
+          //   this.placeNone = res.length ? false : true;
+          // });
 
-            this.placelist = res;
-            this.placeNone = res.length ? false : true;
-          });
+          getRequest('/v1/pois',{
+            type: 'search',
+            city_id: this.cityid,
+            keyword: this.inputValue
+          }).then(res=>{
+            this.historytitle = false;
+            console.log("搜索结果：" + JSON.stringify(res.data));
+            this.placelist = res.data;
+            this.placeNone = res.data.length ? false : true;
+          })
+
         }
       },
       clearAll(){

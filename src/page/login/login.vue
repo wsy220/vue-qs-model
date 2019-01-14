@@ -1,19 +1,7 @@
 <template>
   <div class="loginContainer">
-    <headtop :head-title="'登录'"><span class="head_logo" @click="reload">ele.me</span></headtop>
-    <form class="loginForm">
-      <section class="input_container phone_number">
-        <input type="text" placeholder="账号密码随便输入" name="phone" maxlength="11" v-model="phoneNumber">
-        <button @click.prevent="getVerifyCode" :class="{right_phone_number:rightPhoneNumber}" v-show="!computedTime">
-          获取验证码
-        </button>
-        <button @click.prevent v-show="computedTime">已发送({{computedTime}}s)</button>
-      </section>
-      <section class="input_container">
-        <input type="text" placeholder="验证码" name="mobileCode" maxlength="6" v-model="mobileCode">
-      </section>
-    </form>
-    <div class="login-box" id="app">
+    <headtop :head-title="'登录'" goBack="true"><span class="head_logo" @click="reload">ele.me</span></headtop>
+    <div class="login-box loginForm" id="app">
       <el-row>
         <el-col :span="24">
           <el-input id="name" v-model="phoneNumber" placeholder="请输入帐号">
@@ -44,7 +32,7 @@
           </div>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row class="button_bottom">
         <el-col :span="24">
           <el-button id="login" v-on:click="mobileLogin" style="width:100%" type="primary">登录</el-button>
         </el-col>
@@ -61,7 +49,6 @@
   import {mobileCode, checkExsis, sendLogin, getcaptchas, accountLogin} from '../../service/getData'
   // import alertTip from '../../components/common'
   import {mapState, mapMutations} from 'vuex';
-
   export default {
     name: "login",
     data() {
@@ -80,15 +67,9 @@
         passWord: null, //密码
         captchaCodeImg: null, //验证码地址
         codeNumber: null, //验证码
-
-
         showAlert: false, //显示提示组件
         alertText: null, //提示的内容
-
-
       }
-
-
     },
 
     created() {
@@ -111,7 +92,6 @@
           confirmButtonText: '确定'
         });
       }
-
     },
     methods: {
       ...mapMutations(['RECORD_USERINFO']),
@@ -151,8 +131,6 @@
           // this.showAlert = true;
           this.alertText = "手机号码不正确";
           this.open();
-
-
           return;
         } else if (!this.passWord) {
           // this.showAlert = true;
@@ -166,19 +144,23 @@
           return;
         }
 
-        this.userinfo = await accountLogin(this.phoneNumber, this.passWord, this.codeNumber);
-        console.log(JSON.stringify(this.userinfo));
+        this.userInfo = await accountLogin(this.phoneNumber, this.passWord, this.codeNumber);
+        console.log(JSON.stringify(this.userInfo));
         //如果返回不正确则
-        if (!this.userinfo.user_id) {
-          alert(this.userInfo.message);
+        if (!this.userInfo.user_id) {
+         // alert(this.userInfo.message);
           this.getCaptchaCode();
         } else {
+          //将userInfo信息存入vuex中
+          this.RECORD_USERINFO(this.userInfo);
           this.$router.go(-1);
         }
-
       },
       closeTip() {
         this.showAlert = false;
+      },
+      reload(){
+        window.location.reload();
       }
     }
   }
@@ -186,7 +168,9 @@
 
 <style lang="scss" scoped>
   @import '../../style/mixin';
-
+  .button_bottom{
+    text-align: center;
+  }
   .loginContainer {
     padding-top: 1.95rem;
     p, span, input {
@@ -206,7 +190,7 @@
 
   .loginForm {
     background-color: #fff;
-    margin-top: .6rem;
+    margin-top: 1.2rem;
     .input_container {
       display: flex;
       justify-content: space-between;
@@ -255,7 +239,6 @@
       }
     }
   }
-
   .login_tips {
     @include sc(.5rem, red);
     padding: .4rem .6rem;
@@ -264,7 +247,6 @@
       color: #3b95e9;
     }
   }
-
   .login_container {
     margin: 0 .5rem 1rem;
     @include sc(.7rem, #fff);
@@ -274,7 +256,6 @@
     border-radius: 0.15rem;
     text-align: center;
   }
-
   .button_switch {
     background-color: #ccc;
     display: flex;
@@ -307,11 +288,9 @@
       transform: translateY(-.08rem);
     }
   }
-
   .change_to_text {
     background-color: #4cd964;
   }
-
   .to_forget {
     float: right;
     @include sc(.6rem, #3b95e9);
@@ -320,7 +299,6 @@
   input {
     border: 0px;
   }
-
   .el-row {
     margin-bottom: 20px;
     &:last-child {
@@ -328,7 +306,6 @@
     }
   }
   .login-box {
-    margin-top: 2%;
-    /*margin-left: 40%;*/
+    padding: 10px;
   }
 </style>

@@ -48,6 +48,7 @@
   // import '../../plugins/swiper.min';
   import '../../style/swiper.min.css';
   import FootGuide from "../../components/footer/footGuide";
+  import {getRequest,postRequest,uploadFileRequest,putRequest} from '../../config/axios';
 
   export default {
     name: "msite",
@@ -63,42 +64,61 @@
     async beforeMount() {
       // alert(this.$route.query.geohash);
       if (!this.$route.query.geohash) {//获取city页面传过来的地址经纬度
-        const address = await cityGuess();
-        this.geohash = address.latitude + ',' + address.longitude;
-        // alert(this.geohash);
+        //const address = await cityGuess();
+        var address={}
+        await  getRequest('/v1/cities',{
+          type: 'guess'
+        }).then(resp=>{
+          address = resp.data;
+          this.geohash = address.latitude + ',' + address.longitude;
+          //alert(this.geohash);
+        });
       } else {
         this.geohash = this.$route.query.geohash;
-        // alert(this.geohash);
       }
       this.SAVE_GEOHASH(this.geohash);
       //根据经纬度获取地址信息
-      let res = await misteAddress(this.geohash);
+      //let res = await misteAddress(this.geohash);
+      let res = {};
+      await getRequest('/v2/pois/'+this.geohash).then(resp=>{
+        res=resp.data;
+      });
       // alert('地址信息 '+JSON.stringify(res));
       this.msiteTitle = res.name;
       this.RECORD_ADDRESS(res);
       this.hasGetData = true;
-
     },
-    mounted() {
+    mounted(){
       //获取食品分类
-      msiteFoodTypes(this.geohash).then(res => {
-        let resLength = res.length;
-        let resArr = [...res]; // 返回一个新的数组
+      // msiteFoodTypes(this.geohash).then(res => {
+      //   let resLength = res.length;
+      //   let resArr = [...res]; // 返回一个新的数组
+      //   let foodArr = [];
+      //   for (let i = 0, j = 0; i < resLength; i += 8, j++) {
+      //     foodArr[j] = resArr.splice(0, 8);
+      //   }
+      //   this.foodTypes = foodArr;
+      // })
+      //alert(this.geohash)
+      var geohash=this.geohash
+      getRequest('/v2/index_entry',{
+        geohash,
+        group_type:'1',
+        'flags[]':'F'
+      }).then(res=>{
+        let resLength = res.data.length;
+        let resArr = [...res.data]; // 返回一个新的数组
         let foodArr = [];
-        // console.log(resArr.length);
         for (let i = 0, j = 0; i < resLength; i += 8, j++) {
           foodArr[j] = resArr.splice(0, 8);
         }
         this.foodTypes = foodArr;
-        // console.log(foodArr.length);
-        // console.log(this.foodTypes.length);
       })
     },
     components: {
       FootGuide,
       headtop,
       shopList
-
     },
     methods: {
       ...mapMutations([

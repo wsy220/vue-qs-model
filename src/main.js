@@ -9,6 +9,7 @@ import store from './store';
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 require('./assets/icon/iconfont')
+import axios from 'axios'
 
 import {routerMode} from './config/env'
 import './config/rem'
@@ -18,7 +19,7 @@ Vue.config.productionTip = false
 
 Vue.use(VueRouter)
 Vue.use(ElementUI);
-
+Vue.prototype.$axios=axios;
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

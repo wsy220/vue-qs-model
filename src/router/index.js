@@ -11,7 +11,8 @@ const login = r => require.ensure([], () => r(require('../page/login/login')), '
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city');
 const msite = r => require.ensure([], () => r(require('../page/msite/msite')), 'msite');
 const search=r=>require.ensure([], () => r(require('../page/search/search')), 'search');
-
+const order=r=>require.ensure([], () => r(require('../page/order/order')), 'order');
+const profile=r=>require.ensure([], () => r(require('../page/profile/profile')), 'profile');
 
 
 
@@ -53,6 +54,16 @@ export default new Router({
         {
           path:"search/:geohash",
           component:search
+        },
+        //footer订单
+        {
+          path:"/order",
+          component:order
+        },
+        //footer我的
+        {
+          path:"/profile",
+          component:profile
         },
 
         //mock演示路由

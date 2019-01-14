@@ -45,6 +45,10 @@
 
 <style lang="scss" scoped>
   @import "../../style/mixin";
+  .el-icon-arrow-left{
+    color: #FFF;
+    font-weight: bold;
+  }
   #headtop{
     background-color: $blue;
     position: fixed;
